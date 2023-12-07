@@ -1,6 +1,6 @@
 import { handleCallDbError } from "../../utils/handleErrors";
 import OrderModel from "../orders/ordersSchema";
-import ShippingInterface from "./ShippingInterface";
+import ShippingInterface,{CompletedOrdersInterface, ProfitsAndRevenueInterface, topProductsInterface} from "./ShippingInterface";
 import Shipping from "./biShippingSchema";
 
 
@@ -13,7 +13,7 @@ const getShipping = async (): Promise<ShippingInterface[]> => {
   }
 };
 
-const getOrdersByDateExecution = async () => {
+const getOrdersByDateExecution = async (): Promise<CompletedOrdersInterface[]> => {
   try {
     const result = await Shipping.aggregate([
       {
@@ -37,7 +37,7 @@ const getOrdersByDateExecution = async () => {
 };
 
 
-const getProfitsPerMonth = async () => {
+const getProfitsPerMonth = async (): Promise<ProfitsAndRevenueInterface[]> => {
   try {
     const monthlyStats = await OrderModel.aggregate([
       {
@@ -120,7 +120,7 @@ const getProfitsPerMonth = async () => {
 };
 
 
-const getTopProfitableProducts = async (monthNumber:number) => {
+const getTopProfitableProducts = async (monthNumber:number): Promise<topProductsInterface[]> => {
   try {
     const topProducts = await OrderModel.aggregate([
       {
@@ -150,7 +150,7 @@ const getTopProfitableProducts = async (monthNumber:number) => {
         $project: {
           _id: 0,
           productName: 1,
-          profits: 1,
+          profits: { $round: ['$profits', 2] },
           unitsSold: 1
         }
       }
