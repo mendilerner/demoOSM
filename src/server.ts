@@ -7,6 +7,7 @@ import cors from 'cors';
 import {connectToMongoDB} from './dataAccess/mongooseConnection'
 import usersRouter from './api/users/users.router'
 import ordersRouter from './api/orders/orders.router'
+import biRouter from './api/bi/bi.router'
 
 connectToMongoDB()
 
@@ -17,8 +18,9 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api", usersRouter);
-app.use("/api/orders",ordersRouter);
+app.use("/users", usersRouter);
+app.use("/orders",ordersRouter);
+app.use("/bi",biRouter);
 app.use('/', (req, res) => {
   res.json({message: "hello form OMS server"})
 })
