@@ -28,6 +28,9 @@ const getOrdersByDateExecution = async (): Promise<CompletedOrdersInterface[]> =
           date: '$_id',
           completedOrders: 1
         }
+      },
+      {
+        $sort: { date: 1 } // Sort by date in ascending order (1 for ascending)
       }
     ]);
     return result;
