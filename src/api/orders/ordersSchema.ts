@@ -5,6 +5,7 @@ const ProductSchema = new Schema<ProductInterface>({
   name: { type: String, required: true },
   description: { type: String, required: true },
   price: { type: Number, required: true },
+  profit: {type: Number, required: false},
   quantity: { type: Number, required: true },
 }, { _id: false });
 
